@@ -24,6 +24,7 @@ def greedy_coin(change):
     coin_dict = {}
     for coin in coins:
         coin_dict[coin] = 0
+    print(coin_dict)
     for coin in coins:
         while change >= coin:
             change -= coin
@@ -47,3 +48,5 @@ def main(change):
 if __name__ == "__main__":
     # pylint: disable=no-value-for-parameter
     main()
+
+#

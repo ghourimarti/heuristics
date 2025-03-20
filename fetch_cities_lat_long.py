@@ -11,6 +11,7 @@ import pandas as pd
 from random import shuffle
 import click
 
+
 # build a function that takes variable length argument of strings and returns a list of cities
 def my_cities(*args):
     """Build a list of cities from input"""
@@ -50,7 +51,7 @@ def create_cities_dataframe(cities=None):
     # loop through the cities list and get the latitudes and longitudes
     for city in cities:
         geolocator = geopy.geocoders.Nominatim(user_agent="tsp_pandas")
-        location = geolocator.geocode(city)
+        location = geolocator.geocode(city, timeout=10)
         latitudes.append(location.latitude)
         longitudes.append(location.longitude)
     # create a dataframe from the cities, latitudes, and longitudes
@@ -71,7 +72,9 @@ def tsp(cities_df):
     city_list = cities_df["city"].to_list()
     # shuffle the list to randomize the order of the cities
     shuffle(city_list)
+    print("\n<------------------------------------------------------------------>")
     print(f"Randomized city_list: {city_list}")
+
     # create a list of distances
     distance_list = []
     # loop through the list
@@ -129,7 +132,9 @@ def main(count, df=None):
     for i in range(count):  # run the simulation x times
         # get the distance and city list
         distance, city_list = tsp(cdf)
-        print(f"Running similation: {i}:  Found total distance: {distance}")
+        print(f"\nRunning similation:--------------> {i}")
+        print(f"Found total distance:------------> {distance}")
+        print("<-------------------------------------------------------------------->")
         # append the distance to the distance list
         distance_list.append(distance)
         # append the city list to the city list list
@@ -137,6 +142,9 @@ def main(count, df=None):
     # get the index of the shortest distance
     shortest_distance_index = distance_list.index(min(distance_list))
     # print the shortest distance
+    print(
+        "\n\n<--------------------------------- Results ----------------------------------->"
+    )
     print("Shortest Distance: {}".format(min(distance_list)))
     # print the cities visited
     print("Cities Visited: {}".format(city_list_list[shortest_distance_index]))
